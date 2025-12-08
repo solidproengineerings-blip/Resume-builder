@@ -5,7 +5,7 @@ import { ResumeData } from '../types';
 import { Printer, Sparkles, FileText, ArrowLeft, Save, CloudUpload, Loader2 } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { saveResumeToCloud, uploadResumePdf, updateResumePdfUrl } from '../services/cloudService';
-import { generatePdfBlob } from '../services/pdfService';
+import { generateResumePdf } from '../lib/pdfUtils';
 
 interface EditorViewProps {
   initialData: ResumeData;
@@ -30,8 +30,31 @@ export const EditorView: React.FC<EditorViewProps> = ({ initialData, onSave, onB
     return () => clearTimeout(timer);
   }, [resumeData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    try {
+      const wrapperElement = previewRef.current;
+      if (!wrapperElement) {
+        console.error('Preview wrapper element not found');
+        return;
+      }
+
+      // Get the actual resume-document element
+      const element = wrapperElement.querySelector('.resume-document') as HTMLElement;
+      if (!element) {
+        console.error('Resume document element not found');
+        return;
+      }
+
+      const filename = `${resumeData.personalInfo?.fullName || 'Resume'}_Resume.pdf`;
+      
+      // Generate PDF using solidpro's advanced logic
+      await generateResumePdf({
+        element,
+        filename
+      });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +105,7 @@ export const EditorView: React.FC<EditorViewProps> = ({ initialData, onSave, onB
     <div className="h-screen flex flex-col bg-gray-100 font-sans text-gray-900 overflow-hidden">
       
       {/* Navbar */}
-      <nav className="flex-none bg-white border-b border-gray-200 px-4 py-3 z-50 no-print shadow-sm">
+      <nav className="flex-none bg-white border-b-2 border-solidpro-blue px-4 py-3 z-50 no-print shadow-sm">
         <div className="max-w-full mx-auto flex justify-between items-center gap-4">
           <div className="flex items-center gap-3 flex-1">
              <button 
@@ -132,7 +155,8 @@ export const EditorView: React.FC<EditorViewProps> = ({ initialData, onSave, onB
 
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 bg-gray-900 hover:bg-black text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-all shadow-lg hover:shadow-gray-400/50 font-medium text-sm"
+              className="flex items-center gap-2 bg-gradient-to-r from-solidpro-red to-solidpro-blue text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-all shadow-lg hover:shadow-xl hover:opacity-90 font-medium text-sm"
+              title="Download Resume as PDF"
             >
               <Printer size={18} />
               <span className="hidden sm:inline">Download PDF</span>
@@ -160,12 +184,29 @@ export const EditorView: React.FC<EditorViewProps> = ({ initialData, onSave, onB
         <div className="w-full lg:w-1/2 h-full overflow-y-auto custom-scrollbar bg-gray-100/80 p-4 md:p-8 flex justify-center items-start print:p-0 print:bg-white print:overflow-visible print:block print:w-full print:h-auto">
           
           {/* Resume Container with Scale for viewing */}
-          <div className="relative print:static print:w-full mt-4 lg:mt-8 mb-20" ref={previewRef}>
-            <div className="bg-white shadow-2xl print:shadow-none transform origin-top scale-[0.5] sm:scale-[0.6] md:scale-[0.7] lg:scale-[0.6] xl:scale-[0.75] 2xl:scale-[0.85] print:transform-none print:m-0 transition-transform duration-200">
+          <div className="relative print:static print:w-full mt-4 lg:mt-8 mb-20 print:mt-0 print:mb-0" ref={previewRef}>
+            <div className="bg-white shadow-2xl print:shadow-none transform origin-top scale-[0.5] sm:scale-[0.6] md:scale-[0.7] lg:scale-[0.6] xl:scale-[0.75] 2xl:scale-[0.85] print:scale-100 print:transform-none print:m-0 print:p-0 transition-transform duration-200">
               <ResumePreview data={resumeData} />
             </div>
           </div>
           
+          <style>{`
+            @media print {
+              body {
+                margin: 0;
+                padding: 0;
+                background: white;
+              }
+              * {
+                margin: 0;
+                padding: 0;
+              }
+              html, body {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          `}</style>
         </div>
       </main>
     </div>

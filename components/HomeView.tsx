@@ -78,21 +78,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
     };
 
     return (
-        <div className="h-screen overflow-y-auto custom-scrollbar bg-gray-900 text-white font-sans p-6 md:p-12 relative">
+        <div className="h-screen overflow-y-auto custom-scrollbar bg-gradient-to-b from-gray-900 via-gray-900 to-solidpro-dark text-white font-sans p-6 md:p-12 relative">
             {/* Supabase Connection Status Banner */}
             <SupabaseStatusBanner />
 
             <div className="max-w-7xl mx-auto pb-12">
 
                 {/* Header */}
-                <header className="flex flex-col gap-6 mb-10 sticky top-0 bg-gray-900/95 backdrop-blur z-30 py-4 -mt-4 border-b border-gray-800">
+                <header className="flex flex-col gap-6 mb-10 sticky top-0 bg-gradient-to-r from-gray-900/95 to-solidpro-dark/95 backdrop-blur z-30 py-4 -mt-4 border-b-2 border-solidpro-blue">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <h1 className="text-4xl font-bold tracking-tight">Resume Builder</h1>
+                        <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-solidpro-red to-solidpro-blue bg-clip-text text-transparent">SolidPro Resume Builder</h1>
 
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={handleShareForm}
-                                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
+                                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-solidpro-red to-solidpro-blue text-white rounded-lg transition-all text-sm font-medium shadow-lg hover:shadow-xl hover:opacity-90"
                                 title="Copy a link to send to candidates for data entry"
                             >
                                 <Share2 size={16} />

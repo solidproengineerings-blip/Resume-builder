@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { ResumeData } from '../types';
 import { Mail, Phone, MapPin, Linkedin, Globe, ExternalLink } from 'lucide-react';
 
@@ -6,27 +6,49 @@ interface ResumePreviewProps {
   data: ResumeData;
 }
 
-export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
-  const { personalInfo, experiences, education, skills, projects } = data;
+export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
+  ({ data }, ref) => {
+    const { personalInfo, experiences, education, skills, projects } = data;
 
   return (
-    <div className="a4-paper print-container bg-white text-gray-900 p-10 md:p-14 leading-normal relative overflow-hidden flex flex-col justify-between min-h-[297mm]">
-
-      {/* Branding Header SVG */}
-      <div className="absolute top-0 left-0 z-0 pointer-events-none">
-        <svg width="227" height="183" viewBox="0 0 227 183" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[180px] md:w-[227px] h-auto">
-          <path d="M167.459 0H0V141.347C6.2389 41.2263 114.168 4.67516 167.459 0Z" fill="#16469D"></path>
-          <path d="M227 0C58.8136 7.81475 6.44886 124.095 0 181.259V157.38V132.417C18.0568 33.6469 113.5 3.25615 159.932 0H227Z" fill="#ED1B2F"></path>
-        </svg>
-      </div>
-
-      {/* Watermark */}
-      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
+    <div
+      ref={ref}
+      className="resume-document bg-white relative overflow-hidden"
+      style={{
+        width: "595px",
+        minHeight: "842px",
+        fontFamily: "'Open Sans', sans-serif",
+        margin: '0 auto'
+      }}
+    >
+      {/* Watermark - Centered */}
+      <div
+        className="watermark-container"
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 0,
+          pointerEvents: 'none',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <svg
           viewBox="0 0 267 302"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-[60%] h-auto opacity-[0.04]"
+          style={{
+            width: '60%',
+            height: 'auto',
+            maxWidth: '400px',
+            opacity: 0.05,
+            position: 'absolute'
+          }}
         >
           <path d="M15.9339 285.765C13.0886 285.765 10.2861 285.278 7.52713 284.306C4.7855 283.316 2.27645 281.814 1.38012e-06 279.799L5.0959 273.755C7.04461 275.326 8.86349 276.495 10.5538 277.264C12.2441 278.032 14.0973 278.416 16.1157 278.416C17.6504 278.416 18.8312 278.143 19.6592 277.597C20.5041 277.033 20.9262 276.223 20.9262 275.165L20.9262 275.061C20.9262 274.498 20.8399 274.03 20.6678 273.654C20.4602 273.278 20.1239 272.929 19.6592 272.604C19.1416 272.297 18.4171 271.98 17.4863 271.656C16.6926 271.348 15.6497 271.033 14.3569 270.709C14.1835 270.657 14.0114 270.607 13.8389 270.555C11.9764 270.128 10.2777 269.625 8.74296 269.044C7.19051 268.499 5.87995 267.799 4.81129 266.944C3.74137 266.108 2.91333 265.092 2.3272 263.898C1.7584 262.668 1.47422 261.166 1.47422 259.389L1.47422 259.287C1.47422 257.666 1.7749 256.181 2.37922 254.833C3.01737 253.467 3.92194 252.297 5.0959 251.323C6.26817 250.334 7.67346 249.556 9.31176 248.994C10.9327 248.481 12.7173 248.225 14.6669 248.225C17.4259 248.225 19.9518 248.627 22.2448 249.429C24.5732 250.248 26.7118 251.435 28.6605 252.989L24.2112 259.339C22.2803 258.058 20.5638 257.111 19.0633 256.496C17.5464 255.865 16.046 255.549 14.5629 255.549C13.1309 255.549 12.0703 255.831 11.3814 256.394C10.6396 256.94 10.2692 257.657 10.2692 258.545L10.2692 258.647C10.2692 259.279 10.3978 259.792 10.657 260.184C10.8634 260.595 11.2338 260.962 11.7692 261.285C12.3037 261.592 13.0789 261.909 14.0968 262.232C14.7692 262.438 15.563 262.66 16.4769 262.898C16.9252 263.018 17.3996 263.147 17.8995 263.282C19.7954 263.779 21.4772 264.332 22.9434 264.947C24.4261 265.579 25.6753 266.313 26.6936 267.149C27.7458 268.037 28.5218 269.053 29.0221 270.196C29.5224 271.341 29.7723 272.705 29.7723 274.294L29.7723 274.396C29.7723 276.171 29.4361 277.76 28.7637 279.159C28.1256 280.558 27.1939 281.744 25.9692 282.718C24.728 283.709 23.2623 284.458 21.5719 284.972C19.8305 285.5 17.9515 285.765 15.9339 285.765Z" fill="#17479E"></path>
           <path d="M53.7514 285.74C50.8884 285.74 48.2593 285.249 45.8623 284.268C43.4662 283.252 41.3961 281.893 39.655 280.189C37.9647 278.52 36.6364 276.565 35.6718 274.327C34.7232 272.072 34.25 269.672 34.25 267.124L34.25 267.021C34.25 264.438 34.7232 262.029 35.6718 259.791C36.6546 257.554 38.0002 255.575 39.7071 253.853C41.4481 252.115 43.5347 250.747 45.9659 249.748C48.3629 248.75 50.9925 248.251 53.8551 248.251C56.7688 248.251 59.4157 248.75 61.7954 249.748C64.1923 250.747 66.2446 252.097 67.9519 253.802C69.6752 255.506 71.0128 257.469 71.9614 259.687C72.9099 261.926 73.3827 264.336 73.3827 266.918L73.3827 267.021C73.3827 269.569 72.9095 271.97 71.9614 274.225C70.9777 276.446 69.6151 278.433 67.8741 280.189C66.1846 281.893 64.1238 283.252 61.6926 284.268C59.3121 285.249 56.6652 285.74 53.7514 285.74ZM53.8551 278.123C55.3377 278.123 56.7172 277.865 57.9935 277.349C59.2698 276.781 60.3562 275.998 61.2528 274.999C62.2013 274.017 62.9258 272.839 63.4256 271.461C63.9602 270.102 64.2279 268.657 64.2279 267.124L64.2279 267.021C64.2279 265.438 63.9602 263.974 63.4256 262.631C62.908 261.272 62.1671 260.092 61.2008 259.094C60.2522 258.096 59.14 257.305 57.8637 256.719C56.606 256.151 55.2354 255.867 53.7514 255.867C52.2688 255.867 50.8884 256.151 49.6134 256.719C48.3536 257.253 47.2765 258.028 46.3799 259.042C45.4314 260.04 44.6905 261.203 44.1564 262.529C43.621 263.871 43.3545 265.334 43.3545 266.918L43.3545 267.021C43.3545 268.554 43.621 270.015 44.1564 271.409C44.6909 272.753 45.4318 273.932 46.3799 274.948C47.3272 275.963 48.4399 276.747 49.7162 277.297C50.992 277.848 52.3724 278.123 53.8551 278.123Z" fill="#17479E"></path>
@@ -43,45 +65,79 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
         </svg>
       </div>
 
-      <div className="relative z-10 flex-grow">
-        {/* Header - Aligned Right to balance the top-left graphic */}
-        <header className="border-b-2 border-gray-900 pb-6 mb-8 relative flex flex-col items-end text-right mt-2">
-          <h1 className="text-4xl font-serif font-bold text-gray-900 uppercase tracking-tight mb-2">
+      {/* SVG Header - Fixed positioning */}
+      <div
+        className="svg-header-container"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 1,
+          pointerEvents: 'none',
+          width: '100%',
+          height: '120px',
+          overflow: 'hidden'
+        }}
+      >
+        <svg
+          width="100%"
+          height="120"
+          viewBox="0 0 227 183"
+          fill="none"
+          preserveAspectRatio="xMinYMin meet"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '120px'
+          }}
+        >
+          <path d="M167.459 0H0V141.347C6.2389 41.2263 114.168 4.67516 167.459 0Z" fill="#16469D"></path>
+          <path d="M227 0C58.8136 7.81475 6.44886 124.095 0 181.259V157.38V132.417C18.0568 33.6469 113.5 3.25615 159.932 0H227Z" fill="#ED1B2F"></path>
+        </svg>
+      </div>
+
+      {/* Content - with proper padding accounting for header */}
+      <div className="content-wrapper" style={{ position: 'relative', zIndex: 2, padding: '40px 40px 40px 40px', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+        {/* Header */}
+        <header style={{ borderBottom: '2px solid #1a1a2e', paddingBottom: '20px', marginBottom: '24px' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px', fontFamily: "'Montserrat', sans-serif" }}>
             {personalInfo.fullName || "Your Name"}
           </h1>
-          <p className="text-xl text-gray-600 font-medium tracking-wide mb-5">
+          <p style={{ fontSize: '16px', color: '#666', fontWeight: '500', letterSpacing: '0.5px', marginBottom: '16px' }}>
             {personalInfo.jobTitle || "Job Title"}
           </p>
 
-          <div className="grid grid-cols-1 gap-y-1.5 text-sm text-gray-600">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '13px', color: '#666' }}>
             {personalInfo.email && (
-              <div className="flex items-center justify-end gap-1.5">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Mail size={14} style={{ color: '#999', flexShrink: 0 }} />
                 <span>{personalInfo.email}</span>
-                <Mail size={14} className="text-gray-400 flex-shrink-0" />
               </div>
             )}
             {personalInfo.phone && (
-              <div className="flex items-center justify-end gap-1.5">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={14} style={{ color: '#999', flexShrink: 0 }} />
                 <span>{personalInfo.phone}</span>
-                <Phone size={14} className="text-gray-400 flex-shrink-0" />
               </div>
             )}
             {personalInfo.location && (
-              <div className="flex items-center justify-end gap-1.5">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MapPin size={14} style={{ color: '#999', flexShrink: 0 }} />
                 <span>{personalInfo.location}</span>
-                <MapPin size={14} className="text-gray-400 flex-shrink-0" />
               </div>
             )}
             {personalInfo.linkedin && (
-              <div className="flex items-center justify-end gap-1.5">
-                <span className="truncate max-w-[200px]">{personalInfo.linkedin}</span>
-                <Linkedin size={14} className="text-gray-400 flex-shrink-0" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Linkedin size={14} style={{ color: '#999', flexShrink: 0 }} />
+                <span style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{personalInfo.linkedin}</span>
               </div>
             )}
             {personalInfo.website && (
-              <div className="flex items-center justify-end gap-1.5">
-                <span className="truncate max-w-[200px]">{personalInfo.website}</span>
-                <Globe size={14} className="text-gray-400 flex-shrink-0" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Globe size={14} style={{ color: '#999', flexShrink: 0 }} />
+                <span style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{personalInfo.website}</span>
               </div>
             )}
           </div>
@@ -89,11 +145,11 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
         {/* Summary */}
         {personalInfo.summary && (
-          <section className="mb-8">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-widest border-b border-gray-200 pb-2 mb-3">
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #e5e5e5', paddingBottom: '8px', marginBottom: '12px' }}>
               Professional Summary
             </h2>
-            <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line text-justify">
+            <p style={{ color: '#555', fontSize: '13px', lineHeight: '1.6', whiteSpace: 'pre-wrap', textAlign: 'justify' }}>
               {personalInfo.summary}
             </p>
           </section>
@@ -101,13 +157,13 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
         {/* Skills */}
         {skills.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-widest border-b border-gray-200 pb-2 mb-3">
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #e5e5e5', paddingBottom: '8px', marginBottom: '12px' }}>
               Technical Skills
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {skills.map((skill, index) => (
-                <span key={index} className="bg-gray-50 text-gray-800 text-xs font-semibold px-3 py-1 rounded-md border border-gray-200">
+                <span key={index} style={{ backgroundColor: '#f9f9f9', color: '#333', fontSize: '12px', fontWeight: '600', padding: '6px 12px', borderRadius: '4px', border: '1px solid #e0e0e0' }}>
                   {skill}
                 </span>
               ))}
@@ -117,26 +173,28 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
         {/* Experience */}
         {experiences.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-widest border-b border-gray-200 pb-2 mb-4">
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #e5e5e5', paddingBottom: '8px', marginBottom: '16px' }}>
               Experience
             </h2>
-            <div className="space-y-5">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {experiences.map((exp) => (
                 <div key={exp.id}>
-                  <div className="flex justify-between items-baseline mb-1 gap-4">
-                    <h3 className="text-base font-bold text-gray-900 flex-1">{exp.role}</h3>
-                    <span className="text-sm text-gray-500 font-medium tabular-nums whitespace-nowrap flex-shrink-0">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px', gap: '16px' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a2e', flex: 1 }}>{exp.role}</h3>
+                    <span style={{ fontSize: '12px', color: '#888', fontWeight: '500', whiteSpace: 'nowrap', flexShrink: 0 }}>
                       {exp.startDate} – {exp.isCurrent ? 'Present' : exp.endDate}
                     </span>
                   </div>
-                  <div className="text-sm font-semibold text-gray-700 mb-2">{exp.company}</div>
-                  <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#555', marginBottom: '8px' }}>{exp.company}</div>
+                  <div style={{ fontSize: '13px', color: '#555', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
                     {exp.description.split('\n').map((line, i) => (
-                      line.trim() ? <div key={i} className="flex items-start mb-1.5 gap-2">
-                        <span className="text-gray-400 mt-0.5 flex-shrink-0" style={{ width: '8px' }}>•</span>
-                        <span className="flex-1">{line}</span>
-                      </div> : null
+                      line.trim() ? (
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '8px', gap: '8px' }}>
+                          <span style={{ color: '#ccc', marginTop: '2px', flexShrink: 0, width: '8px' }}>•</span>
+                          <span style={{ flex: 1 }}>{line}</span>
+                        </div>
+                      ) : null
                     ))}
                   </div>
                 </div>
@@ -147,24 +205,24 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
         {/* Projects */}
         {projects.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-widest border-b border-gray-200 pb-2 mb-4">
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #e5e5e5', paddingBottom: '8px', marginBottom: '16px' }}>
               Key Projects
             </h2>
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {projects.map((proj) => (
                 <div key={proj.id}>
-                  <div className="flex justify-between items-center mb-1">
-                    <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a2e', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       {proj.name}
                       {proj.link && (
-                        <a href={proj.link} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-blue-600 no-print transition-colors">
+                        <a href={proj.link} target="_blank" rel="noreferrer" style={{ color: '#999', textDecoration: 'none' }}>
                           <ExternalLink size={12} />
                         </a>
                       )}
                     </h3>
                   </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                  <p style={{ fontSize: '13px', color: '#555', lineHeight: '1.6' }}>
                     {proj.description}
                   </p>
                 </div>
@@ -175,20 +233,20 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
         {/* Education */}
         {education.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-widest border-b border-gray-200 pb-2 mb-4">
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1a1a2e', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #e5e5e5', paddingBottom: '8px', marginBottom: '16px' }}>
               Education
             </h2>
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {education.map((edu) => (
                 <div key={edu.id}>
-                  <div className="flex justify-between items-baseline mb-1 gap-4">
-                    <h3 className="text-base font-bold text-gray-900 flex-1">{edu.institution}</h3>
-                    <span className="text-sm text-gray-500 font-medium tabular-nums whitespace-nowrap flex-shrink-0">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px', gap: '16px' }}>
+                    <h3 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a2e', flex: 1 }}>{edu.institution}</h3>
+                    <span style={{ fontSize: '12px', color: '#888', fontWeight: '500', whiteSpace: 'nowrap', flexShrink: 0 }}>
                       {edu.startDate} – {edu.isCurrent ? 'Present' : edu.endDate}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-700">{edu.degree}</div>
+                  <div style={{ fontSize: '13px', color: '#555' }}>{edu.degree}</div>
                 </div>
               ))}
             </div>
@@ -197,9 +255,98 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-gray-200 pt-6 mt-auto flex flex-col items-center justify-center text-center">
-        <p className="text-gray-400 font-bold text-sm tracking-widest uppercase">SolidPro</p>
+      <footer style={{ position: 'relative', zIndex: 2, borderTop: '1px solid #e5e5e5', paddingTop: '24px', paddingBottom: '24px', marginTop: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+        <p style={{ color: '#999', fontWeight: 'bold', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>ResumeAI Builder</p>
       </footer>
+
+      <style>
+        {`
+          @media print {
+            @page {
+              size: 210mm 297mm;
+              margin: 0 !important;
+            }
+
+            .resume-document {
+              width: 595px !important;
+              min-height: 842px !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              box-shadow: none !important;
+              border: none !important;
+              page-break-after: avoid !important;
+            }
+
+            .resume-document * {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+
+            .watermark-container {
+              position: absolute !important;
+              top: 50% !important;
+              left: 50% !important;
+              transform: translate(-50%, -50%) !important;
+              z-index: 0 !important;
+              pointer-events: none !important;
+              width: 100% !important;
+              height: 100% !important;
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              opacity: 0.05 !important;
+            }
+
+            .svg-header-container {
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              z-index: 1 !important;
+              pointer-events: none !important;
+              width: 100% !important;
+              height: 120px !important;
+              overflow: hidden !important;
+            }
+
+            .content-wrapper {
+              position: relative;
+              z-index: 2;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
+
+            section {
+              break-inside: avoid;
+              page-break-inside: avoid;
+            }
+
+            h2, h3 {
+              break-after: avoid;
+              page-break-after: avoid;
+            }
+
+            footer {
+              break-before: avoid;
+              page-break-before: avoid;
+            }
+
+            body {
+              margin: 0;
+              padding: 0;
+              background: white;
+            }
+
+            .no-print {
+              display: none !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
-};
+  }
+);
+
+ResumePreview.displayName = "ResumePreview";
+
+export default ResumePreview;
