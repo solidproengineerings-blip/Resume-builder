@@ -1,0 +1,5 @@
+{
+  "name": "ResumeAI Builder",
+  "description": "A professional resume builder powered by Gemini AI. Create, enhance, and export your resume to PDF with AI-generated summaries and bullet point improvements.",
+  "requestFramePermissions": []
+}
