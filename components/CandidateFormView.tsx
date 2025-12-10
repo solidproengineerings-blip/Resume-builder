@@ -75,12 +75,6 @@ export const CandidateFormView: React.FC<CandidateFormViewProps> = ({ onBack }) 
                 </p>
                 <div className="flex flex-col gap-3">
                     <button 
-                        onClick={handleDownload}
-                        className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 hover:bg-gray-50 rounded-lg text-gray-700 font-medium transition-colors"
-                    >
-                        <Download size={20} /> Download Copy for your records
-                    </button>
-                    <button 
                         onClick={() => window.location.reload()}
                         className="w-full flex items-center justify-center gap-2 px-6 py-3 text-gray-400 hover:text-gray-600 text-sm"
                     >
@@ -114,7 +108,6 @@ export const CandidateFormView: React.FC<CandidateFormViewProps> = ({ onBack }) 
           <div className="p-6 md:p-8 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
              <div>
                 <h2 className="text-xl font-semibold text-gray-800">Candidate Profile</h2>
-                <p className="text-sm text-gray-500">Auto-saved locally.</p>
              </div>
              {!supabase && (
                  <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg text-xs font-medium border border-amber-200">
@@ -147,13 +140,13 @@ export const CandidateFormView: React.FC<CandidateFormViewProps> = ({ onBack }) 
                 
                 <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto order-1 sm:order-2">
                     {/* Secondary Action: Download */}
-                    <button
+                    {/* <button
                         onClick={handleDownload}
                         className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 px-6 py-3 rounded-lg transition-all font-medium"
                     >
                         <Download size={20} />
                         Download JSON
-                    </button>
+                    </button> */}
 
                     {/* Primary Action: Submit */}
                     <button

@@ -15,6 +15,8 @@ export interface Education {
   startDate: string;
   endDate: string;
   isCurrent: boolean;
+  graduationYear: string;
+  isopen: boolean; // For UI collapse/expand state
 }
 
 export interface ResumeData {
@@ -44,6 +46,6 @@ export interface ResumeData {
 }
 
 export enum GeneratorType {
-  SUMMARY = 'SUMMARY',
-  EXPERIENCE_BULLET = 'EXPERIENCE_BULLET'
+  SUMMARY = "SUMMARY",
+  EXPERIENCE_BULLET = "EXPERIENCE_BULLET",
 }
