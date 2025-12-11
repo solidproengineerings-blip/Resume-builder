@@ -401,6 +401,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
               >
                 {experiences.map((exp) => (
                   <div key={exp.id}>
+                    {/* Company + Years */}
                     <div
                       style={{
                         display: "flex",
@@ -417,8 +418,9 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                           flex: 1,
                         }}
                       >
-                        {exp.role}
+                        {exp.company}
                       </h3>
+
                       <span
                         style={{
                           fontSize: "12px",
@@ -432,6 +434,8 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                         {exp.isCurrent ? "Present" : exp.endDate}
                       </span>
                     </div>
+
+                    {/* Role */}
                     <div
                       style={{
                         fontSize: "13px",
@@ -440,8 +444,10 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                         marginBottom: "8px",
                       }}
                     >
-                      {exp.company}
+                      {exp.role}
                     </div>
+
+                    {/* Description */}
                     <div
                       style={{
                         fontSize: "13px",
@@ -461,16 +467,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                               gap: "8px",
                             }}
                           >
-                            <span
-                              style={{
-                                color: "#ccc",
-                                marginTop: "2px",
-                                flexShrink: 0,
-                                width: "8px",
-                              }}
-                            >
-                              •
-                            </span>
+                           
                             <span style={{ flex: 1 }}>{line}</span>
                           </div>
                         ) : null
